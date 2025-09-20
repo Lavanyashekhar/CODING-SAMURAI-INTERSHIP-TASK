@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskify - Interactive To-Do List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .task-item:hover .task-actions {
+            opacity: 1;
+        }
+        .completed-task {
+            text-decoration: line-through;
+            color: #9CA3AF;
+        }
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3B82F6;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .custom-checkbox:checked {
+            background-color: #3B82F6;
+        }
+        .custom-checkbox:checked::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8 max-w-3xl">
+        <header class="text-center mb-12" data-aos="fade-down">
+            <h1 class="text-4xl font-bold text-indigo-600 mb-2">Taskify</h1>
+            <p class="text-gray-600"> interactive to-do list application</p>
+        </header>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8" data-aos="fade-up">
+            <div class="p-6 bg-gradient-to-r from-indigo-500 to-purple-600">
+                <div class="flex items-center">
+                    <input 
+                        type="text" 
+                        id="newTaskInput" 
+                        placeholder="Add a new task..." 
+                        class="flex-grow px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 bg-white bg-opacity-90 text-gray-800"
+                    >
+                    <button 
+                        id="addTaskBtn" 
+                        class="ml-4 bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-all duration-200 flex items-center"
+                    >
+                        <i data-feather="plus" class="mr-2"></i> Add
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Your Tasks</h2>
+                    <div class="flex items-center space-x-4">
+                        <span id="taskCount" class="text-sm text-gray-500">0 tasks</span>
+                        <button id="clearAllBtn" class="text-sm text-red-500 hover:text-red-600">Clear All</button>
+                    </div>
+                </div>
+
+                <div id="taskList" class="space-y-3">
+                    <!-- Tasks will be added here dynamically -->
+                    <div class="text-center py-8 text-gray-400" id="emptyState">
+                        <i data-feather="list" class="w-12 h-12 mx-auto mb-4"></i>
+                        <p>No tasks yet. Add your first task above!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-gray-500 text-sm mt-12">
+            <p>Drag tasks to reorder • Double-click to edit • Click checkbox to complete</p>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Edit Task</h3>
+                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <input 
+                type="text" 
+                id="editTaskInput" 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+            <div class="flex justify-end space-x-3">
+                <button id="cancelEditBtn" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Cancel</button>
+                <button id="saveEditBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+            AOS.init({
+                duration: 600,
+                easing: 'ease-out-quad',
+                once: true
+            });
+
+            // DOM Elements
+            const newTaskInput = document.getElementById('newTaskInput');
+            const addTaskBtn = document.getElementById('addTaskBtn');
+            const taskList = document.getElementById('taskList');
+            const emptyState = document.getElementById('emptyState');
+            const taskCount = document.getElementById('taskCount');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            const editModal = document.getElementById('editModal');
+            const editTaskInput = document.getElementById('editTaskInput');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+            const saveEditBtn = document.getElementById('saveEditBtn');
+
+            // State
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let currentEditIndex = null;
+
+            // Initialize the app
+            function init() {
+                renderTasks();
+                updateTaskCount();
+            }
+
+            // Render tasks to the DOM
+            function renderTasks() {
+                if (tasks.length === 0) {
+                    emptyState.classList.remove('hidden');
+                    taskList.innerHTML = '';
+                    taskList.appendChild(emptyState);
+                    return;
+                }
+
+                emptyState.classList.add('hidden');
+                taskList.innerHTML = '';
+
+                tasks.forEach((task, index) => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = `task-item bg-gray-50 rounded-lg p-4 flex items-center justify-between transition-all duration-200 hover:bg-gray-100`;
+                    taskElement.setAttribute('data-index', index);
+                    taskElement.setAttribute('draggable', 'true');
+                    
+                    taskElement.innerHTML = `
+                        <div class="flex items-center">
+                            <input 
+                                type="checkbox" 
+                                class="custom-checkbox mr-4" 
+                                ${task.completed ? 'checked' : ''}
+                            >
+                            <span class="${task.completed ? 'completed-task' : ''}">${task.text}</span>
+                        </div>
+                        <div class="task-actions flex space-x-2 opacity-0 transition-opacity duration-200">
+                            <button class="edit-btn p-2 text-gray-500 hover:text-indigo-600">
+                                <i data-feather="edit-2" class="w-4 h-4"></i>
+                            </button>
+                            <button class="delete-btn p-2 text-gray-500 hover:text-red-600">
+                                <i data-feather="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    taskList.appendChild(taskElement);
+
+                    // Add event listeners to the new elements
+                    const checkbox = taskElement.querySelector('.custom-checkbox');
+                    const editBtn = taskElement.querySelector('.edit-btn');
+                    const deleteBtn = taskElement.querySelector('.delete-btn');
+
+                    checkbox.addEventListener('change', () => toggleTaskComplete(index));
+                    editBtn.addEventListener('click', () => openEditModal(index));
+                    deleteBtn.addEventListener('click', () => deleteTask(index));
+
+                    // Double click to edit
+                    taskElement.addEventListener('dblclick', () => openEditModal(index));
+
+                    // Drag and drop functionality
+                    taskElement.addEventListener('dragstart', handleDragStart);
+                    taskElement.addEventListener('dragover', handleDragOver);
+                    taskElement.addEventListener('drop', handleDrop);
+                    taskElement.addEventListener('dragend', handleDragEnd);
+                });
+
+                feather.replace();
+            }
+
+            // Update task count display
+            function updateTaskCount() {
+                const totalTasks = tasks.length;
+                const completedTasks = tasks.filter(task => task.completed).length;
+                taskCount.textContent = `${completedTasks}/${totalTasks} tasks`;
+            }
+
+            // Add a new task
+            function addTask() {
+                const text = newTaskInput.value.trim();
+                if (text === '') return;
+
+                tasks.push({ text, completed: false });
+                saveTasks();
+                newTaskInput.value = '';
+                renderTasks();
+                updateTaskCount();
+            }
+
+            // Toggle task completion status
+            function toggleTaskComplete(index) {
+                tasks[index].completed = !tasks[index].completed;
+                saveTasks();
+                renderTasks();
+                updateTaskCount();
+            }
+
+            // Delete a task
+            function deleteTask(index) {
+                tasks.splice(index, 1);
+                saveTasks();
+                renderTasks();
+                updateTaskCount();
+            }
+
+            // Open edit modal
+            function openEditModal(index) {
+                currentEditIndex = index;
+                editTaskInput.value = tasks[index].text;
+                editModal.classList.remove('hidden');
+                editTaskInput.focus();
+            }
+
+            // Close edit modal
+            function closeEditModal() {
+                editModal.classList.add('hidden');
+                currentEditIndex = null;
+            }
+
+            // Save edited task
+            function saveEditedTask() {
+                if (currentEditIndex === null) return;
+                
+                const text = editTaskInput.value.trim();
+                if (text === '') {
+                    deleteTask(currentEditIndex);
+                } else {
+                    tasks[currentEditIndex].text = text;
+                    saveTasks();
+                    renderTasks();
+                }
+                closeEditModal();
+            }
+
+            // Clear all tasks
+            function clearAllTasks() {
+                if (tasks.length === 0 || !confirm('Are you sure you want to delete all tasks?')) return;
+                
+                tasks = [];
+                saveTasks();
+                renderTasks();
+                updateTaskCount();
+            }
+
+            // Save tasks to localStorage
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+
+            // Drag and Drop functions
+            let draggedItem = null;
+
+            function handleDragStart(e) {
+                draggedItem = this;
+                e.dataTransfer.effectAllowed = 'move';
+                this.classList.add('opacity-50');
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            }
+
+            function handleDrop(e) {
+                e.preventDefault();
+                if (draggedItem !== this) {
+                    const fromIndex = parseInt(draggedItem.getAttribute('data-index'));
+                    const toIndex = parseInt(this.getAttribute('data-index'));
+                    
+                    // Reorder tasks array
+                    const [removed] = tasks.splice(fromIndex, 1);
+                    tasks.splice(toIndex, 0, removed);
+                    
+                    saveTasks();
+                    renderTasks();
+                }
+            }
+
+            function handleDragEnd() {
+                this.classList.remove('opacity-50');
+            }
+
+            // Event Listeners
+            addTaskBtn.addEventListener('click', addTask);
+            newTaskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addTask();
+            });
+            clearAllBtn.addEventListener('click', clearAllTasks);
+            closeModalBtn.addEventListener('click', closeEditModal);
+            cancelEditBtn.addEventListener('click', closeEditModal);
+            saveEditBtn.addEventListener('click', saveEditedTask);
+            editModal.addEventListener('click', (e) => {
+                if (e.target === editModal) closeEditModal();
+            });
+
+            // Initialize the app
+            init();
+        });
+    </script>
+</body>
+</html>
