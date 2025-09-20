@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogSphere | Modern Blogging Platform</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .blog-card:hover .blog-title {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-xl font-bold gradient-text">BlogSphere</a>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-8">
+                    <a href="/" class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="/posts" class="text-gray-500 hover:text-blue-600 px-3 py-2 text-sm font-medium">All Posts</a>
+                    <a href="/create" class="text-gray-500 hover:text-blue-600 px-3 py-2 text-sm font-medium">Create Post</a>
+                    <a href="/login" class="text-gray-500 hover:text-blue-600 px-3 py-2 text-sm font-medium">Login</a>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="/" class="bg-blue-50 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+                <a href="/posts" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">All Posts</a>
+                <a href="/create" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Create Post</a>
+                <a href="/login" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                    <div class="sm:text-center lg:text-left">
+                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                            <span class="block">Share your</span>
+                            <span class="block gradient-text">thoughts with world</span>
+                        </h1>
+                        <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                            BlogSphere is a modern platform for writers and readers. Create, share, and discover amazing content.
+                        </p>
+                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                            <div class="rounded-md shadow">
+                                <a href="/create" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
+                                    Start Writing
+                                </a>
+                            </div>
+                            <div class="mt-3 sm:mt-0 sm:ml-3">
+                                <a href="/posts" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10">
+                                    Read Posts
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="http://static.photos/technology/1200x630/42" alt="Blogging illustration">
+        </div>
+    </div>
+
+    <!-- Featured Posts -->
+    <div class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Featured Posts</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Popular reads this week
+                </p>
+            </div>
+
+            <div class="mt-10">
+                <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    <!-- Blog Post 1 -->
+                    <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="px-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/1" alt="Author">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                    <div class="text-sm text-gray-500">2 days ago</div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <a href="#" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">The Future of Web Development</a>
+                                <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                    Exploring the latest trends and technologies shaping the future of web development in 2023 and beyond.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                Technology
+                            </span>
+                            <div class="mt-4 flex justify-between items-center">
+                                <div class="flex space-x-1 text-gray-400">
+                                    <i data-feather="eye" class="w-4 h-4"></i>
+                                    <span class="text-xs">1.2k views</span>
+                                </div>
+                                <a href="/post/1" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blog Post 2 -->
+                    <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="px-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/2" alt="Author">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">Michael Chen</div>
+                                    <div class="text-sm text-gray-500">5 days ago</div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <a href="#" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">Sustainable Living in Urban Areas</a>
+                                <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                    Practical tips for reducing your carbon footprint while living in the city without sacrificing comfort.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Lifestyle
+                            </span>
+                            <div class="mt-4 flex justify-between items-center">
+                                <div class="flex space-x-1 text-gray-400">
+                                    <i data-feather="eye" class="w-4 h-4"></i>
+                                    <span class="text-xs">890 views</span>
+                                </div>
+                                <a href="/post/2" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blog Post 3 -->
+                    <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="px-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/3" alt="Author">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">Emma Rodriguez</div>
+                                    <div class="text-sm text-gray-500">1 week ago</div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <a href="#" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">Mindfulness Meditation for Beginners</a>
+                                <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                    A simple guide to starting your mindfulness meditation practice and its scientifically proven benefits.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                Wellness
+                            </span>
+                            <div class="mt-4 flex justify-between items-center">
+                                <div class="flex space-x-1 text-gray-400">
+                                    <i data-feather="eye" class="w-4 h-4"></i>
+                                    <span class="text-xs">1.5k views</span>
+                                </div>
+                                <a href="/post/3" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-blue-700">
+        <div class="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                <span class="block">Ready to start your blogging journey?</span>
+            </h2>
+            <p class="mt-4 text-lg leading-6 text-blue-200">
+                Join thousands of writers sharing their knowledge and experiences with the world.
+            </p>
+            <a href="/register" class="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 sm:w-auto">
+                Sign up for free
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+                <div class="px-5 py-2">
+                    <a href="/about" class="text-base text-gray-500 hover:text-gray-900">About</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="/contact" class="text-base text-gray-500 hover:text-gray-900">Contact</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="/privacy" class="text-base text-gray-500 hover:text-gray-900">Privacy</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="/terms" class="text-base text-gray-500 hover:text-gray-900">Terms</a>
+                </div>
+            </nav>
+            <div class="mt-8 flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                    <i data-feather="twitter" class="h-6 w-6"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                    <i data-feather="facebook" class="h-6 w-6"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                    <i data-feather="instagram" class="h-6 w-6"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                    <i data-feather="github" class="h-6 w-6"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-center text-base text-gray-400">
+                &copy; 2023 BlogSphere. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('button[aria-controls="mobile-menu"]').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Initialize AOS and Feather Icons
+        AOS.init();
+        feather.replace();
+    </script>
+</body>
+</html>

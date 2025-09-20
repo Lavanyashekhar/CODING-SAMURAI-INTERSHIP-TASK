@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts | BlogSphere</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .blog-card:hover .blog-title {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-xl font-bold gradient-text">BlogSphere</a>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-8">
+                    <a href="/" class="text-gray-500 hover:text-blue-600 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="/posts" class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium">All Posts</a>
+                    <a href="/create" class="text-gray-500 hover:text-blue-600 px-3 py-2 text-sm font-medium">Create Post</a>
+                    <a href="/login" class="text-gray-500 hover:text-blue-600 px-3 py-2 text-sm font-medium">Login</a>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <i data-feather="menu"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="sm:hidden hidden" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="/" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+                <a href="/posts" class="bg-blue-50 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">All Posts</a>
+                <a href="/create" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Create Post</a>
+                <a href="/login" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center mb-12">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Blog Posts</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Discover amazing content
+                </p>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="mb-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+                    <div class="relative w-full sm:w-96">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i data-feather="search" class="h-5 w-5 text-gray-400"></i>
+                        </div>
+                        <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Search posts...">
+                    </div>
+                    <div class="flex space-x-2">
+                        <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option>All Categories</option>
+                            <option>Technology</option>
+                            <option>Lifestyle</option>
+                            <option>Wellness</option>
+                            <option>Business</option>
+                            <option>Travel</option>
+                        </select>
+                        <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option>Newest First</option>
+                            <option>Oldest First</option>
+                            <option>Most Popular</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Posts Grid -->
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                <!-- Repeat this block for each blog post -->
+                <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="px-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/4" alt="Author">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">David Wilson</div>
+                                <div class="text-sm text-gray-500">3 days ago</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="/post/1" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">Getting Started with React Hooks</a>
+                            <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                A comprehensive guide to understanding and implementing React Hooks in your applications.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            Technology
+                        </span>
+                        <div class="mt-4 flex justify-between items-center">
+                            <div class="flex space-x-1 text-gray-400">
+                                <i data-feather="eye" class="w-4 h-4"></i>
+                                <span class="text-xs">1.8k views</span>
+                            </div>
+                            <a href="/post/1" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="px-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/5" alt="Author">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">Lisa Thompson</div>
+                                <div class="text-sm text-gray-500">1 week ago</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="/post/2" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">The Art of Minimalist Photography</a>
+                            <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                Learn how to capture stunning minimalist photographs with these composition techniques.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                            Art
+                        </span>
+                        <div class="mt-4 flex justify-between items-center">
+                            <div class="flex space-x-1 text-gray-400">
+                                <i data-feather="eye" class="w-4 h-4"></i>
+                                <span class="text-xs">1.1k views</span>
+                            </div>
+                            <a href="/post/2" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="px-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/6" alt="Author">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">James Peterson</div>
+                                <div class="text-sm text-gray-500">2 weeks ago</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="/post/3" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">Remote Work Productivity Hacks</a>
+                            <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                Proven strategies to stay productive and maintain work-life balance while working remotely.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Business
+                        </span>
+                        <div class="mt-4 flex justify-between items-center">
+                            <div class="flex space-x-1 text-gray-400">
+                                <i data-feather="eye" class="w-4 h-4"></i>
+                                <span class="text-xs">2.3k views</span>
+                            </div>
+                            <a href="/post/3" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="px-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/7" alt="Author">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">Sophia Lee</div>
+                                <div class="text-sm text-gray-500">3 weeks ago</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="/post/4" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">Sustainable Travel: Tips for Eco-Friendly Adventures</a>
+                            <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                How to explore the world while minimizing your environmental impact and supporting local communities.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            Travel
+                        </span>
+                        <div class="mt-4 flex justify-between items-center">
+                            <div class="flex space-x-1 text-gray-400">
+                                <i data-feather="eye" class="w-4 h-4"></i>
+                                <span class="text-xs">950 views</span>
+                            </div>
+                            <a href="/post/4" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="px-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/8" alt="Author">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">Robert Kim</div>
+                                <div class="text-sm text-gray-500">1 month ago</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="/post/5" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">The Science of Sleep: Optimizing Your Rest</a>
+                            <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                Understanding sleep cycles and practical tips to improve sleep quality for better health and productivity.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                            Health
+                        </span>
+                        <div class="mt-4 flex justify-between items-center">
+                            <div class="flex space-x-1 text-gray-400">
+                                <i data-feather="eye" class="w-4 h-4"></i>
+                                <span class="text-xs">1.7k views</span>
+                            </div>
+                            <a href="/post/5" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card pt-6 bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div class="px-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img class="h-10 w-10 rounded-full" src="http://static.photos/people/200x200/9" alt="Author">
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">Olivia Martinez</div>
+                                <div class="text-sm text-gray-500">1 month ago</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="/post/6" class="blog-title text-xl font-semibold text-gray-900 transition-colors duration-300">Plant-Based Nutrition for Beginners</a>
+                            <p class="mt-3 text-base text-gray-500 line-clamp-3">
+                                A practical guide to transitioning to a plant-based diet while ensuring proper nutrition and delicious meals.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            Food
+                        </span>
+                        <div class="mt-4 flex justify-between items-center">
+                            <div class="flex space-x-1 text-gray-400">
+                                <i data-feather="eye" class="w-4 h-4"></i>
+                                <span class="text-xs">1.4k views</span>
+                            </div>
+                            <a href="/post/6" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Read more →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-12 flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+                <div class="flex flex-1 justify-between sm:hidden">
+                    <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
+                    <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+                </div>
+                <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">6</span> of <span class="font-medium">24</span> results
+                        </p>
+                    </div>
+                    <div>
+                        <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                            <a href="#" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                <span class="sr-only">Previous</span>
+                                <i data-feather="chevron-left" class="h-5 w-5"></i>
+                            </a>
+                            <a href="#" aria-current="page" class="relative z-10 inline-flex items-center bg-blue-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">1</a>
+                            <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</a>
+                            <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">3</a>
+                            <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
+                            <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">8</a>
+                            <a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                <span class="sr-only">Next</span>
+                                <i data-feather="chevron-right" class="h-5 w-5"></i>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+                <div class="px-5 py-2">
+                    <a href="/about" class="text-base text-gray-500 hover:text-gray-900">About</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="/contact" class="text-base text-gray-500 hover:text-gray-900">Contact</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="/privacy" class="text-base text-gray-500 hover:text-gray-900">Privacy</a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="/terms" class="text-base text-gray-500 hover:text-gray-900">Terms</a>
+                </div>
+            </nav>
+            <div class="mt-8 flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                    <i data-feather="twitter" class="h-6 w-6"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                    <i data-feather="facebook" class="h-6 w-6"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                    <i data-feather="instagram" class="h-6 w-6"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                    <i data-feather="github" class="h-6 w-6"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-center text-base text-gray-400">
+                &copy; 2023 BlogSphere. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('button[aria-controls="mobile-menu"]').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Initialize AOS and Feather Icons
+        AOS.init();
+        feather.replace();
+    </script>
+</body>
+</html>
